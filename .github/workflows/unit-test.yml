@@ -1,0 +1,32 @@
+name: C++ Unit Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y cmake g++ make libgtest-dev
+
+    - name: Build project
+      run: |
+        mkdir -p build
+        cd build
+        cmake ..
+        make -j$(nproc)
+
+    - name: Run unit tests
+      run: |
+        cd build
+        ctest --output-on-failure

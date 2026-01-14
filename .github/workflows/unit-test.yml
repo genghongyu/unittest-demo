@@ -18,6 +18,16 @@ jobs:
       run: |
         sudo apt update
         sudo apt install -y cmake g++ make libgtest-dev
+        # 编译 gtest
+        cd /usr/src/gtest
+        sudo cmake CMakeLists.txt
+        sudo make
+        sudo cp *.a /usr/lib
+        # 编译 gmock
+        cd /usr/src/gmock
+        sudo cmake CMakeLists.txt
+        sudo make
+        sudo cp *.a /usr/lib
 
     - name: Build project
       run: |
